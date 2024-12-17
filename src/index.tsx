@@ -1,7 +1,12 @@
-import ReactDOM from 'react-dom/client';
-import App from './App';
+import ReactDOM from "react-dom/client";
+import App from "./App";
 import "./index.css";
+import { Provider } from "@/components/ui/provider";
 
-const rootElement = document.getElementById('root')!;
+const rootElement = document.getElementById("root")!;
 const root = ReactDOM.createRoot(rootElement);
-root.render(<App />);
+root.render(
+  <Provider>
+    <App />
+  </Provider>
+);
