@@ -1,7 +1,8 @@
-import React from "react";
-
 const App = () => {
-  return <div className="text-slate-600">Hello world!!!</div>;
+  console.log("app rendered")
+  return <div className="h-full">
+    App 
+  </div>;
 };
 
 export default App;
