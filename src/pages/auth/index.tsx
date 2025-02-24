@@ -3,12 +3,14 @@ import { supabase } from "@/supabaseClient";
 import { Box, Card, Flex, Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
+import { NavLink } from "react-router";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
 
   const handleSignUp = async () => {
     setLoading(true);
@@ -28,11 +30,15 @@ export default function Auth() {
     if (error) setError(error.message);
   };
 
+  const handleCreateAccount = () => {
+
+  }
+
   return (
-    <Flex justifyContent={"center"}>
+    <Flex justifyContent={"center"} alignItems={"center"} h="full">
       <Card.Root maxW={"sm"} p={4}>
         <Card.Header>
-          <Card.Title>Log In</Card.Title>
+          <Card.Title fontSize={"large"} fontWeight={"medium"}>Log In</Card.Title>
           <Card.Description>
             Fill in the form below to access the application
           </Card.Description>
@@ -66,7 +72,8 @@ export default function Auth() {
           </Stack>
         </Card.Body>
         <Card.Footer>
-          <Button
+         <Flex flexDirection={"column"} gap={2} w={"full"}>
+         <Button
             variant={"subtle"}
             className=" bg-blue-600 text-white"
             rounded={6}
@@ -74,6 +81,13 @@ export default function Auth() {
           >
             Login
           </Button>
+          <Text fontSize={"sm"} color="gray.500" mt={2}>
+            Don't have an account?{" "}
+            <Text as="span" color="blue.500" onClick={handleCreateAccount} cursor="pointer">
+              <NavLink to={'/signup'}>Sign up</NavLink>
+            </Text>
+          </Text>
+          </Flex>
         </Card.Footer>
       </Card.Root>
     </Flex>
