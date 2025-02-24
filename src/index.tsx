@@ -7,8 +7,12 @@ import Login from "./pages/auth";
 import TopContainer from "./pages/topContainer";
 import SignUp from "./pages/signup";
 
+
 const rootElement = document.getElementById("root")!;
 const root = ReactDOM.createRoot(rootElement);
+
+
+
 root.render(
   <BrowserRouter>
     <Provider>
@@ -17,11 +21,7 @@ root.render(
           <TopContainer />
         </div>
         <div className="flex-grow">
-          <Routes>
-            <Route path="/auth" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/" element={<App />} />
-          </Routes>
+         <App />
         </div>
       </div>
     </Provider>

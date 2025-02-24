@@ -2,8 +2,40 @@ import { Box, Card, Flex, Input, Stack, Text } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router";
+import { useState } from "react";
+import { supabase } from "@/supabaseClient";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const SignUp = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    setLoading(true);
+    setError("");
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      setError(error.message);
+    } else {
+      alert("Check your email for a confirmation link!");
+    }
+  };
+
   return (
     <Flex justifyContent={"center"} alignItems={"center"} h="full">
       <Card.Root maxW={"sm"} p={4}>
@@ -29,26 +61,32 @@ const SignUp = () => {
                 borderWidth={2}
                 p={2}
                 rounded={6}
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
               />
             </Field>
             <Field label="Password" required>
-              <Input
+              <PasswordInput
                 placeholder="Enter your password"
                 variant={"outline"}
                 type="password"
                 borderWidth={2}
                 p={2}
                 rounded={6}
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
               />
             </Field>
             <Field label="Confirm Password" required>
-              <Input
+              <PasswordInput
                 placeholder="Confirm your password"
                 variant={"outline"}
                 type="password"
                 borderWidth={2}
                 p={2}
                 rounded={6}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
               />
             </Field>
           </Stack>
@@ -66,6 +104,8 @@ const SignUp = () => {
               </Text>
             </Text>
             <Button
+              disabled={loading || !email || !password || !confirmPassword}
+              onClick={handleSignUp}
               variant={"subtle"}
               className=" bg-blue-600 text-white"
               rounded={6}
@@ -83,6 +123,11 @@ const SignUp = () => {
                 <NavLink to={"/auth"}>Login here</NavLink>
               </Text>
             </Text>
+            {error && (
+              <Box color="red.500" textAlign="center">
+                {error}
+              </Box>
+            )}
           </Flex>
         </Card.Footer>
       </Card.Root>
