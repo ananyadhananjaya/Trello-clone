@@ -1,14 +1,11 @@
-import {
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router";
+import { Routes, Route, Outlet, Navigate } from "react-router";
 
 import Login from "../pages/auth";
 import SignUp from "../pages/signup";
 import Dashboard from "../pages/dashboard";
 import { useAuthStore } from "@/store/useAuthStore";
+import SettingsPage from "@/pages/settingsPage";
+import Layout from "@/pages/layout";
 
 // Protected Route Component
 const ProtectedRoute = () => {
@@ -31,7 +28,10 @@ export default function App() {
       </Route>
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/settings" element={<SettingsPage />} />
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/auth" />} />
