@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/store/useAuthStore";
 import { supabase } from "@/supabaseClient";
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { House, LogOut, Settings } from "lucide-react";
 import { NavLink } from "react-router";
 
@@ -18,16 +18,27 @@ const SidePanel = () => {
 
   return (
     <div
-      className="dark:bg-gray-800 bg-white shadow-lg rounded-lg h-full overflow-hidden"
+      className="dark:bg-gray-800 bg-white border dark:border-none overflow-hidden"
       style={{ width: "62px" }}
     >
-      <Flex justify={"space-between"} flexDirection={"column"} h="100%" p={4}>
-        <Flex>
-          <NavLink to="/dashboard">
-            <House size={18} className="cursor-pointer" />
-          </NavLink>
+      <Flex justify={"space-between"} flexDirection={"column"} h="100%" paddingY={2}>
+        <Flex flexDirection={"column"} alignItems={"center"} gap={4} p={2}>
+          <div style={{height: '36px'}}></div>
+          <div>
+            <NavLink to="/dashboard">
+              <House size={18} className="cursor-pointer" />
+            </NavLink>
+          </div>
         </Flex>
-        <Flex flexDirection={"column"} alignItems={"center"} gap={4}>
+
+        <Flex flexDirection={"column"} alignItems={"center"} gap={4} p={2}>
+          <div
+            style={{
+              borderBottom: "1px solid #e0e0e0",
+              width: "100%",
+              height: "1px",
+            }}
+          />
           <div>
             <NavLink to="/settings">
               <Settings size={18} className="cursor-pointer" />
