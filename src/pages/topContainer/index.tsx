@@ -3,7 +3,7 @@ import { MoonStar, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const TopContainer = () => {
-  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "dark");
 
   useEffect(() => {
     document.documentElement.className = theme;
