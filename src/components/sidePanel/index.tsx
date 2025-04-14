@@ -1,13 +1,14 @@
 import { useAuthStore } from "@/store/useAuthStore";
 import { supabase } from "@/supabaseClient";
 import { Box, Flex } from "@chakra-ui/react";
-import { House, LogOut, Settings } from "lucide-react";
+import { AlignStartHorizontal, House, LogOut, Settings } from "lucide-react";
 import { NavLink } from "react-router";
 
 const SidePanel = () => {
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleLogOut = async () => {
+    await supabase.auth.refreshSession(); // Refresh before logging out
     const { error } = await supabase.auth.signOut();
     if (error) {
       console.error("Logout error:", error.message);
@@ -21,14 +22,22 @@ const SidePanel = () => {
       className="dark:bg-gray-800 bg-white border dark:border-none overflow-hidden"
       style={{ width: "62px" }}
     >
-      <Flex justify={"space-between"} flexDirection={"column"} h="100%" paddingY={2}>
+      <Flex
+        justify={"space-between"}
+        flexDirection={"column"}
+        h="100%"
+        paddingY={2}
+      >
         <Flex flexDirection={"column"} alignItems={"center"} gap={4} p={2}>
-          <div style={{height: '36px'}}></div>
-          <div>
+          <div style={{ height: "36px" }}></div>
+          <Flex flexDirection={"column"} gap={6}>
             <NavLink to="/dashboard">
-              <House size={18} className="cursor-pointer" />
+              <House size={24} className="cursor-pointer" />
             </NavLink>
-          </div>
+            <NavLink to={"/boards"}>
+              <AlignStartHorizontal size={24} className="cursor-pointer" />
+            </NavLink>
+          </Flex>
         </Flex>
 
         <Flex flexDirection={"column"} alignItems={"center"} gap={4} p={2}>
@@ -41,13 +50,13 @@ const SidePanel = () => {
           />
           <div>
             <NavLink to="/settings">
-              <Settings size={18} className="cursor-pointer" />
+              <Settings size={24} className="cursor-pointer" />
             </NavLink>
           </div>
           <div>
             <LogOut
               className="cursor-pointer"
-              size={18}
+              size={24}
               onClick={() => handleLogOut()}
             />
           </div>

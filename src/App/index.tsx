@@ -6,6 +6,7 @@ import Dashboard from "../pages/dashboard";
 import { useAuthStore } from "@/store/useAuthStore";
 import SettingsPage from "@/pages/settingsPage";
 import Layout from "@/pages/layout";
+import Boards from "@/pages/boards";
 
 // Protected Route Component
 const ProtectedRoute = () => {
@@ -30,6 +31,7 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/boards" element={<Boards />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
       </Route>

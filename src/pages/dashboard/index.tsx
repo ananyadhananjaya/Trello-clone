@@ -1,5 +1,11 @@
+import { Box, Tabs, TabsIndicator } from "@chakra-ui/react";
+
 const Dashboard = () => {
-  return <div className="h-full">this is dashboard</div>;
+  return (
+    <Box className="w-ful h-full p-4">
+     
+    </Box>
+  );
 };
 
 export default Dashboard;

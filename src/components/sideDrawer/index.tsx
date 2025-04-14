@@ -18,7 +18,7 @@ const SideDrawer = () => {
     <DrawerRoot size={"sm"}>
       <DrawerTrigger asChild>
         <Box className="cursor-pointer">
-          <Bell size={18} />
+          <Bell size={24} />
         </Box>
       </DrawerTrigger>
       <DrawerContent>

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router";
 import { PasswordInput } from "@/components/ui/password-input";
 
+type UserRole = "admin" | "user" | "moderator";
+
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,12 +16,30 @@ export default function Auth() {
 
   const handleSignIn = async () => {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
-    if (error) setError(error.message);
+    const { data, error } = await supabase.auth
+      .signInWithPassword({
+        email,
+        password,
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    if (error) {
+      setError(error.message);
+      return; // Early return if sign-in fails
+    }
+
+    const { data: profileData, error: fetchError } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", data.user.id);
+
+    if (fetchError) {
+      console.error(fetchError.message);
+    } else {
+      localStorage.setItem("role", profileData[0].role || "");
+    }
   };
 
   const handleCreateAccount = () => {};

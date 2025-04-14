@@ -3,15 +3,9 @@ import App from "./App";
 import "./index.css";
 import { Provider } from "@/components/ui/provider";
 import { BrowserRouter, Routes, Route } from "react-router";
-import Login from "./pages/auth";
-import TopContainer from "./pages/topContainer";
-import SignUp from "./pages/signup";
-
 
 const rootElement = document.getElementById("root")!;
 const root = ReactDOM.createRoot(rootElement);
-
-
 
 root.render(
   <BrowserRouter>

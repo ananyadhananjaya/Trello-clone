@@ -27,9 +27,8 @@ const TopContainer = () => {
       paddingRight={4}
     >
       <Box className="cursor-pointer" onClick={toggleTheme}>
-        {theme === "light" ? <MoonStar size={18} /> : <Sun size={18} />}
+        {theme === "light" ? <MoonStar size={24} /> : <Sun size={24} />}
       </Box>
-     
       <SideDrawer />
     </Flex>
   );
