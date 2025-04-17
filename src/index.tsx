@@ -10,10 +10,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <BrowserRouter>
     <Provider>
-      <div className="h-screen overflow-auto flex flex-col bg-slate-100 dark:bg-slate-900">
-       
+      <div className="h-screen overflow-auto flex flex-col bg-slate-100 dark:bg-slate-950">
         <div className="flex-grow">
-         <App />
+          <App />
         </div>
       </div>
     </Provider>

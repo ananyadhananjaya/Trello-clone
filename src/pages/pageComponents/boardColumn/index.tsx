@@ -1,8 +1,8 @@
+import { useEffect } from "react";
 import TaskCard from "../taskCard";
 
-
-
 const BoardColumn = () => {
+
   const getBoardCols = (it: number) => {
     return (
       <div
