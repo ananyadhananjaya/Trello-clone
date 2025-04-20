@@ -5,7 +5,6 @@ import { Field } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "react-router";
 import { PasswordInput } from "@/components/ui/password-input";
-import { useBoardsStore } from "@/store/boardStore";
 
 type UserRole = "admin" | "user" | "moderator";
 
@@ -41,7 +40,7 @@ export default function Auth() {
     } else {
       localStorage.setItem("role", profileData[0].role || "");
     }
-    await useBoardsStore.getState().fetchBoards();
+    
   };
 
   const handleCreateAccount = () => {};

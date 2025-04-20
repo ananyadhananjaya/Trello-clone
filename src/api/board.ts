@@ -34,8 +34,7 @@ export async function createBoard(name: string, description?: string) {
 //     .from("boards")
 //     .select("*")
 
-  
-//     console.log(data, error)
+
 
 //   if (error) {
 //     console.error("Error fetching boards:", error.message);

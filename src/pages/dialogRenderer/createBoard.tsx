@@ -10,6 +10,7 @@ import { Label } from "@/components/shadcn/label";
 import { Button } from "@/components/ui/button";
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import { fetchBoards } from "../boards";
 
 interface CreateBoardDialogProps {
   open: boolean;
@@ -28,7 +29,7 @@ export default function CreateBoardDialog({
   async function handleCreateBoard() {
     try {
       const newBoard = await createBoard(boardName, description);
-      console.log("Board created!!");
+      fetchBoards()
       onClose();
     } catch (err) {
       console.error(err);

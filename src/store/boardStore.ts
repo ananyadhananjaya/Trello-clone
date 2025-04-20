@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { supabase } from "@/supabaseClient";
 
-interface Board {
+export interface Board {
   id: string;
   name: string;
   description?: string;

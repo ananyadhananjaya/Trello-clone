@@ -2,7 +2,7 @@ import SidePanel from "@/components/sidePanel";
 import { Box, Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router";
 import TopContainer from "../topContainer";
-import { DialogRenderer } from "../pageComponents/dialogRenderer";
+import { DialogRenderer } from "../dialogRenderer";
 
 const Layout = () => {
   return (
