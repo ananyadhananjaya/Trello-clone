@@ -7,7 +7,7 @@ export function DialogRenderer() {
   const { openDialog, closeDialog, dialogData } = useDialogStore();
 
   if (!openDialog) return null;
- console.log(openDialog)
+
   switch (openDialog) {
     
     case "CREATE_BOARD":

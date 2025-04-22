@@ -22,6 +22,7 @@ import { useBoardsStore } from "@/store/boardStore";
 import { supabase } from "@/supabaseClient";
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
+import { fetchTasks } from "../boards";
 
 interface CreateTaskDialogProps {
   open: boolean;
@@ -57,8 +58,9 @@ export default function CreateTaskDialog({
         ])
 
       if (error) throw error;
+      fetchTasks();
+      onClose();
 
-      console.log("Task created:", data);
     } catch (err) {
       console.error("Error creating task:", err);
     }

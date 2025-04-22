@@ -1,11 +1,10 @@
-type FlagType = "urgent" | "in-progress" | "completed" | "blocked";
 
 interface BoardFlagsProps {
-  flags: FlagType[];
+  flags: string[];
 }
 
 const BoardFlags = ({ flags }: BoardFlagsProps) => {
-  const getFlagStyles = (flag: FlagType) => {
+  const getFlagStyles = (flag: string) => {
     switch (flag) {
       case "urgent":
         return "bg-red-100 text-red-600";
@@ -20,7 +19,7 @@ const BoardFlags = ({ flags }: BoardFlagsProps) => {
     }
   };
 
-  const getFlags = (flag: FlagType) => {
+  const getFlags = (flag: string) => {
     return (
       <span
         key={flag}
@@ -40,7 +39,7 @@ const BoardFlags = ({ flags }: BoardFlagsProps) => {
   };
   return (
     <div className="flex flex-wrap">
-      {flags.map((it: FlagType) => getFlags(it))}
+      {flags.map((it: string) => getFlags(it))}
     </div>
   );
 };

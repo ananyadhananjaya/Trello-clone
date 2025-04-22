@@ -6,14 +6,17 @@ const BoardColumn = () => {
 
   const [boardCols, setBoardCols] = useState<Board[]>([])
   const boards = useBoardsStore().boards;
+  const tasks = useBoardsStore().tasks;
+
+  console.log(tasks, boards)
 
   useEffect(() => {
     setBoardCols(boards)
   }, [boards])
 
-  console.log("boards:", boardCols)
 
   const getBoardCols = (it: Board) => {
+    const tasksForBoard = tasks.filter((task) => task.board_id === it.id);
     return (
       <div
         className="flex flex-col gap-4 rounded-xl dark:bg-gray-800 bg-white p-3 h-full"
@@ -22,8 +25,8 @@ const BoardColumn = () => {
       >
         <span className="font-semibold text-sm">{it.name}</span>
         <span className="font-light text-xs">{it.description || ''}</span>
-        {[1, 2, 3, 4].map((it, ind) => (
-          <TaskCard key={ind} />
+        {tasksForBoard.map((it, ind) => (
+          <TaskCard key={ind} card={it} />
         ))}
       </div>
     );

@@ -16,12 +16,17 @@ export const fetchBoards = async () => {
   await useBoardsStore.getState().fetchBoards();
 };
 
+export const fetchTasks = async () => {
+  await useBoardsStore.getState().fetchTasks();
+};
+
 const Boards = () => {
   const [selectBoards, setSelectBoards] = useState("select ..");
   const { setDialog } = useDialogStore();
 
   useEffect(() => {
     fetchBoards();
+    fetchTasks();
   }, []);
 
   const handleSelect = (e: string) => {
