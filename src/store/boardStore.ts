@@ -1,6 +1,7 @@
 // src/stores/boardsStore.ts
 import { create } from "zustand";
 import { supabase } from "@/supabaseClient";
+import { fetchTasks } from "@/pages/boards";
 
 export interface Board {
   id: number;
@@ -11,7 +12,7 @@ export interface Board {
 }
 
 export interface Tasks {
-  id: string;
+  id: number;
   title: string;
   order_index: number;
   description?: string;
@@ -27,7 +28,7 @@ interface BoardsState {
   fetchBoards: () => Promise<void>;
   tasks: Tasks[];
   fetchTasks : () => Promise<void>;
-  setTasks: (tasks: any) => Promise<void>;
+  setTasks: (taskId:number, board_id: number) => Promise<void>;
 }
 
 export const useBoardsStore = create<BoardsState>((set) => ({
@@ -49,7 +50,15 @@ export const useBoardsStore = create<BoardsState>((set) => ({
     }
     set({ tasks: data || [] });
   },
-  setTasks: async () => {
+  setTasks: async (taskId:number, board_id: number) => {
+    const { data, error } = await supabase
+    .from("task_cards")
+    .update({ board_id: board_id })
+    .eq("id", taskId)
 
+    console.log("put", data, error)
+
+    fetchTasks();
+    
   }
 }));
