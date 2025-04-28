@@ -18,11 +18,10 @@ import {
 } from "@/components/shadcn/select";
 import { Button } from "@/components/ui/button";
 import { Required } from "@/components/utilComps";
-import { useBoardsStore } from "@/store/boardStore";
+import { fetchTasksToStore, useBoardsStore } from "@/store/boardStore";
 import { supabase } from "@/supabaseClient";
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
-import { fetchTasks } from "../boards";
 
 interface CreateTaskDialogProps {
   open: boolean;
@@ -58,7 +57,7 @@ export default function CreateTaskDialog({
         ])
 
       if (error) throw error;
-      fetchTasks();
+      fetchTasksToStore();
       onClose();
 
     } catch (err) {
@@ -110,7 +109,7 @@ export default function CreateTaskDialog({
               <SelectContent>
                 {boards.map((it) => {
                   return (
-                    <SelectItem value={it.id} key={it.id + it.name}>
+                    <SelectItem value={it.id.toString()} key={it.id + it.name}>
                       {it.name}
                     </SelectItem>
                   );

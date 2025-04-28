@@ -8,9 +8,9 @@ import {
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
 import { Button } from "@/components/ui/button";
+import { fetchBoardsToStore } from "@/store/boardStore";
 import { Flex } from "@chakra-ui/react";
 import { useState } from "react";
-import { fetchBoards } from "../boards";
 
 interface CreateBoardDialogProps {
   open: boolean;
@@ -29,7 +29,7 @@ export default function CreateBoardDialog({
   async function handleCreateBoard() {
     try {
       const newBoard = await createBoard(boardName, description);
-      fetchBoards()
+      fetchBoardsToStore()
       onClose();
     } catch (err) {
       console.error(err);
@@ -69,7 +69,7 @@ export default function CreateBoardDialog({
         </Flex>
         <Flex justifyContent="space-between" gap={4}>
           <Button
-            className="bg-red-600 text-white p-3 rounded-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-300"
+            className="bg-red-600 text-white p-3 rounded-md hover:bg-red-700"
             type="reset"
             onClick={() => onClose()}
           >

@@ -5,6 +5,10 @@ type DialogType =
   | "EDIT_TASK"
   | "CONFIRM_DELETE"
   | "CREATE_BOARD"
+  | "EDIT_BOARD"
+  | "DELETE_BOARD"
+  | "DELETE_TASK"
+  | "ARCHIVE_BOARD"
   | null
 
 interface DialogState {

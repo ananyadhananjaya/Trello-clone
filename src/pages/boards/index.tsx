@@ -10,23 +10,16 @@ import {
 import { useEffect, useState } from "react";
 import BoardColumn from "../pageComponents/boardColumn";
 import { useDialogStore } from "@/store/dialogStore";
-import { useBoardsStore } from "@/store/boardStore";
+import { fetchBoardsToStore, fetchTasksToStore } from "@/store/boardStore";
 
-export const fetchBoards = async () => {
-  await useBoardsStore.getState().fetchBoards();
-};
-
-export const fetchTasks = async () => {
-  await useBoardsStore.getState().fetchTasks();
-};
 
 const Boards = () => {
-  const [selectBoards, setSelectBoards] = useState("select ..");
+  const [selectBoards, setSelectBoards] = useState<string>("select ..");
   const { setDialog } = useDialogStore();
 
   useEffect(() => {
-    fetchBoards();
-    fetchTasks();
+    fetchBoardsToStore();
+    fetchTasksToStore();
   }, []);
 
   const handleSelect = (e: string) => {
@@ -37,7 +30,27 @@ const Boards = () => {
         break;
       case "createTask":
         setDialog("CREATE_TASK");
-        setSelectBoards(e)
+        setSelectBoards(e);
+        break;
+      case "editBoard":
+        setDialog("EDIT_BOARD");
+        setSelectBoards(e);
+        break;
+      case "editTask":
+        setDialog("EDIT_TASK");
+        setSelectBoards(e);
+        break;
+      case "deleteBoard":
+        setDialog("DELETE_BOARD");
+        setSelectBoards(e);
+        break;
+      case "deleteTask":
+        setDialog("DELETE_TASK");
+        setSelectBoards(e);
+        break;
+      case "archiveBoard":
+        setDialog("ARCHIVE_BOARD");
+        setSelectBoards(e);
         break;
     }
     setSelectBoards("");
@@ -47,13 +60,21 @@ const Boards = () => {
     <Flex className="h-full w-full" flexDirection={"column"} p={2}>
       <Flex justifyContent={"end"}>
         <div className="w-1/6">
-          <Select value={selectBoards} onValueChange={(val) => handleSelect(val)}>
-            <SelectTrigger className="">
+          <Select
+            value={selectBoards}
+            onValueChange={(val) => handleSelect(val)}
+          >
+            <SelectTrigger>
               <SelectValue placeholder={selectBoards} />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="createBoard">Create a new Board</SelectItem>
-              <SelectItem value="createTask" >Create a new Task</SelectItem>
+              <SelectItem value="createTask">Create a new Task</SelectItem>
+              <SelectItem value="editBoard">Edit Board</SelectItem>
+              <SelectItem value="editTask">Edit Task</SelectItem>
+              <SelectItem value="deleteBoard">Delete Board</SelectItem>
+              <SelectItem value="deleteTask">Delete Task</SelectItem>
+              <SelectItem value="archiveBoard">Archive Board</SelectItem>
             </SelectContent>
           </Select>
         </div>

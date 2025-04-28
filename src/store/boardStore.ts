@@ -1,7 +1,6 @@
 // src/stores/boardsStore.ts
 import { create } from "zustand";
 import { supabase } from "@/supabaseClient";
-import { fetchTasks } from "@/pages/boards";
 
 export interface Board {
   id: number;
@@ -27,9 +26,18 @@ interface BoardsState {
   boards: Board[];
   fetchBoards: () => Promise<void>;
   tasks: Tasks[];
-  fetchTasks : () => Promise<void>;
-  setTasks: (taskId:number, board_id: number) => Promise<void>;
+  fetchTasks: () => Promise<void>;
+  setTasks: (taskId: number, board_id: number) => Promise<void>;
+  updateBoards: (boardId: number, name: string, description: string) => Promise<void>;
 }
+
+export const fetchBoardsToStore = async () => {
+  await useBoardsStore.getState().fetchBoards();
+};
+
+export const fetchTasksToStore = async () => {
+  await useBoardsStore.getState().fetchTasks();
+};
 
 export const useBoardsStore = create<BoardsState>((set) => ({
   boards: [],
@@ -50,15 +58,25 @@ export const useBoardsStore = create<BoardsState>((set) => ({
     }
     set({ tasks: data || [] });
   },
-  setTasks: async (taskId:number, board_id: number) => {
+  setTasks: async (taskId: number, board_id: number) => {
     const { data, error } = await supabase
-    .from("task_cards")
-    .update({ board_id: board_id })
-    .eq("id", taskId)
+      .from("task_cards")
+      .update({ board_id: board_id })
+      .eq("id", taskId);
 
-    console.log("put", data, error)
+    fetchTasksToStore();
+  },
+  updateBoards: async (boardId: number, name: string, description: string) => {
+    const { data, error } = await supabase
+      .from("boards")
+      .update({ name, description })
+      .eq("id", boardId);
 
-    fetchTasks();
-    
-  }
+    if (error) {
+      console.error("Error updating board:", error.message);
+      return;
+    }
+
+    fetchBoardsToStore();
+  },
 }));
