@@ -34,7 +34,7 @@ const EditTask = ({ open, onClose, data }: EditTaskDialogProps) => {
   );
   const [dueOn, setDueOn] = useState<Date | undefined>(new Date(data.due_date));
   const [board, setBoard] = useState<string>(data.board_id.toString());
-  const [flags, setFlags] = useState<string[]>(data.flags || []);
+  const [flags, setFlags] = useState<string[]>(JSON.parse(data.flags.toString()) || []);
 
   const boards = useBoardsStore().boards || [];
   const { updateTask } = useBoardsStore();
@@ -48,6 +48,8 @@ const EditTask = ({ open, onClose, data }: EditTaskDialogProps) => {
       board_id: parseInt(board),
       flags: flags,
     };
+
+    // console.log("Edited Task:", editedTask);
 
     updateTask(editedTask).then(() => onClose());
   };

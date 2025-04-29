@@ -23,6 +23,14 @@ const options = [
   { label: "Blocked", value: "blocked", color: "bg-yellow-500" },
   { label: "In Progress", value: "in_progress", color: "bg-blue-500" },
   { label: "Completed", value: "completed", color: "bg-green-500" },
+  { label: "Bug", value: "bug", color: "bg-rose-600" },
+  { label: "Feature", value: "feature", color: "bg-cyan-600" },
+  { label: "Design", value: "design", color: "bg-pink-500" },
+  { label: "Testing", value: "testing", color: "bg-purple-500" },
+  { label: "Low Priority", value: "low_priority", color: "bg-gray-400" },
+  { label: "Medium Priority", value: "medium_priority", color: "bg-orange-400" },
+  { label: "High Priority", value: "high_priority", color: "bg-orange-600" },
+  { label: "Discussion", value: "discussion", color: "bg-teal-500" },
 ];
 
 const FlagsSelect = ({ value, onChange }: FlagsSelectProps) => {

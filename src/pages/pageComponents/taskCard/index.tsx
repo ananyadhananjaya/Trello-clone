@@ -38,7 +38,7 @@ const TaskCard = ({ card }: TaskCardProps) => {
 
   return (
     <Card
-      className="border-2 shadow-none rounded-xl w-full dark:bg-slate-950"
+      className="border-2 shadow-none rounded-xl w-full dark:bg-slate-950 cursor-pointer"
       onClick={handleTaskClick}
     >
       <CardHeader>
