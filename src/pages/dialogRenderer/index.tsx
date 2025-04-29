@@ -2,7 +2,7 @@ import { useDialogStore } from "@/store/dialogStore";
 import CreateBoardDialog from "./createBoard";
 import CreateTaskDialog from "./createTaskCard";
 import EditBoard from "./editBoard";
-
+import EditTask from "./editTask";
 
 export function DialogRenderer() {
   const { openDialog, closeDialog, dialogData } = useDialogStore();
@@ -10,14 +10,16 @@ export function DialogRenderer() {
   if (!openDialog) return null;
 
   switch (openDialog) {
-    
     case "CREATE_BOARD":
       return <CreateBoardDialog open onClose={closeDialog} data={dialogData} />;
     case "CREATE_TASK":
-      return <CreateTaskDialog open onClose={closeDialog}   />
+      return <CreateTaskDialog open onClose={closeDialog} />;
 
     case "EDIT_BOARD":
       return <EditBoard open onClose={closeDialog} data={dialogData} />;
+
+    case "EDIT_TASK":
+      return <EditTask open onClose={closeDialog} data={dialogData} />;
 
     default:
       return null;

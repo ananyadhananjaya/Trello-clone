@@ -36,10 +36,6 @@ const Boards = () => {
         setDialog("EDIT_BOARD");
         setSelectBoards(e);
         break;
-      case "editTask":
-        setDialog("EDIT_TASK");
-        setSelectBoards(e);
-        break;
       case "deleteBoard":
         setDialog("DELETE_BOARD");
         setSelectBoards(e);
@@ -71,7 +67,6 @@ const Boards = () => {
               <SelectItem value="createBoard">Create a new Board</SelectItem>
               <SelectItem value="createTask">Create a new Task</SelectItem>
               <SelectItem value="editBoard">Edit Board</SelectItem>
-              <SelectItem value="editTask">Edit Task</SelectItem>
               <SelectItem value="deleteBoard">Delete Board</SelectItem>
               <SelectItem value="deleteTask">Delete Task</SelectItem>
               <SelectItem value="archiveBoard">Archive Board</SelectItem>

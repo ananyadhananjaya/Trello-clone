@@ -1,14 +1,17 @@
-// import { createTask } from "@/api/task"; // your API call
-import { CustomDatePicker } from "@/components/customDatePicker";
-import FlagsSelect from "@/components/flagsSelect";
+import { useEffect, useState } from "react";
+import { Tasks, useBoardsStore } from "@/store/boardStore";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "@/components/shadcn/dialog";
+import { Flex } from "@chakra-ui/react";
 import { Input } from "@/components/shadcn/input";
 import { Label } from "@/components/shadcn/label";
+import { Required } from "@/components/utilComps";
+import { CustomDatePicker } from "@/components/customDatePicker";
+import { Button } from "@/components/shadcn/button";
 import {
   Select,
   SelectContent,
@@ -16,85 +19,68 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/shadcn/select";
-import { Button } from "@/components/ui/button";
-import { Required } from "@/components/utilComps";
-import { fetchTasksToStore, useBoardsStore } from "@/store/boardStore";
-import { supabase } from "@/supabaseClient";
-import { Flex } from "@chakra-ui/react";
-import { useState } from "react";
+import FlagsSelect from "@/components/flagsSelect";
 
-interface CreateTaskDialogProps {
+interface EditTaskDialogProps {
   open: boolean;
   onClose: () => void;
+  data: Tasks;
 }
 
-export default function CreateTaskDialog({
-  open,
-  onClose,
-}: CreateTaskDialogProps) {
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [board, setBoard] = useState<string>("");
-  const [flags, setFlags] = useState<string[]>([]);
-  const [createdOn, setCreatedOn] = useState<Date>();
-  const [dueOn, setDueOn] = useState<Date>();
+const EditTask = ({ open, onClose, data }: EditTaskDialogProps) => {
+  const [title, setTitle] = useState<string>(data.title);
+  const [description, setDescription] = useState<string>(
+    data.description || ""
+  );
+  const [dueOn, setDueOn] = useState<Date | undefined>(new Date(data.due_date));
+  const [board, setBoard] = useState<string>(data.board_id.toString());
+  const [flags, setFlags] = useState<string[]>(data.flags || []);
 
   const boards = useBoardsStore().boards || [];
+  const { updateTask } = useBoardsStore();
 
-  async function handleCreateTask() {
-    try {
-      const { data, error } = await supabase
-        .from("task_cards") 
-        .insert([
-          {
-            title: title,
-            description: description,
-            flags: flags,
-            created_on: createdOn,
-            due_date: dueOn,
-            board_id: board,
-          },
-        ])
+  const handleSave = () => {
+    const editedTask: Tasks = {
+      ...data,
+      title,
+      description,
+      due_date: dueOn?.toISOString() || "",
+      board_id: parseInt(board),
+      flags: flags,
+    };
 
-      if (error) throw error;
-      fetchTasksToStore();
-      onClose();
+    updateTask(editedTask).then(() => onClose());
+  };
 
-    } catch (err) {
-      console.error("Error creating task:", err);
-    }
-  }
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="flex flex-col gap-4 p-6">
-        <DialogTitle>Create New Task</DialogTitle>
+      <DialogContent>
+        <DialogTitle>Edit Task</DialogTitle>
         <DialogDescription>
-          Add a title and optional description to your task.
+          Edit the details of your task here.
         </DialogDescription>
 
-        <Flex gap={4} direction="column">
-          <div>
-            <Label htmlFor="task-title">
+        <Flex gap={2} direction="column" className="w-full">
+          <Flex direction="column" gap={2}>
+            <Label htmlFor="taskTitle">
               Title <Required />
             </Label>
             <Input
-              id="task-title"
               type="text"
-              placeholder="Task Title"
+              id="taskTitle"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
-          <div>
-            <Label htmlFor="task-description">Description</Label>
+          </Flex>
+
+          <Flex direction="column" gap={2} className="mt-4">
+            <Label htmlFor="taskDescription">Description</Label>
             <Input
-              id="task-description"
-              type="text"
-              placeholder="Task Description"
+              id="taskDescription"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-          </div>
+          </Flex>
         </Flex>
 
         <Flex justifyContent={"space-between"} gap={8}>
@@ -123,15 +109,23 @@ export default function CreateTaskDialog({
           </Flex>
         </Flex>
 
-        <Flex gap={8} justifyContent={"space-between"}>
-          <Flex gap={1} flex={1} direction={"column"}>
-            <Label>Created Date</Label>
-            <CustomDatePicker
-              onChange={(e) => setCreatedOn(e)}
-              value={createdOn}
+        <Flex gap={2} className="w-full mt-4">
+          <Flex direction="column" gap={2} className="w-full">
+            <Label>
+              Created Date <Required />
+            </Label>
+            <Input
+              type="text"
+              value={new Date(data.created_on).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+              disabled
             />
           </Flex>
-          <Flex gap={1} flex={1} direction={"column"}>
+
+          <Flex direction="column" gap={2} className="w-full">
             <Label>
               Due Date <Required />
             </Label>
@@ -150,12 +144,14 @@ export default function CreateTaskDialog({
           <Button
             className="bg-blue-700 text-white p-3 rounded-md hover:bg-green-600"
             type="submit"
-            onClick={handleCreateTask}
+            onClick={handleSave}
           >
-            Create
+            Save Changes
           </Button>
         </Flex>
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default EditTask;

@@ -28,7 +28,12 @@ interface BoardsState {
   tasks: Tasks[];
   fetchTasks: () => Promise<void>;
   setTasks: (taskId: number, board_id: number) => Promise<void>;
-  updateBoards: (boardId: number, name: string, description: string) => Promise<void>;
+  updateTask: (task: Tasks) => Promise<void>;
+  updateBoards: (
+    boardId: number,
+    name: string,
+    description: string
+  ) => Promise<void>;
 }
 
 export const fetchBoardsToStore = async () => {
@@ -78,5 +83,24 @@ export const useBoardsStore = create<BoardsState>((set) => ({
     }
 
     fetchBoardsToStore();
+  },
+  updateTask: async (task: Tasks) => {
+    const { data, error } = await supabase
+      .from("task_cards")
+      .update({
+        title: task.title,
+        description: task.description,
+        due_date: task.due_date,
+        flags: task.flags,
+        board_id: task.board_id,
+      })
+      .eq("id", task.id);
+
+    if (error) {
+      console.error("Error updating task:", error.message);
+      return;
+    }
+
+    fetchTasksToStore();
   },
 }));

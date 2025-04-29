@@ -6,31 +6,41 @@ import {
   CardTitle,
 } from "@/components/shadcn/card";
 import BoardFlags from "../taskCard/boardFlags";
-import { Calendar, Clock4 } from "lucide-react";
+import { Calendar, Clock4, EllipsisVertical } from "lucide-react";
 import { Tasks } from "@/store/boardStore";
+import { useDialogStore } from "@/store/dialogStore";
 
 interface TaskCardProps {
   card: Tasks;
 }
 
 const TaskCard = ({ card }: TaskCardProps) => {
+  const { setDialog } = useDialogStore();
+
   const getDueColor = (dueDateStr: string) => {
     const dueDate = new Date(dueDateStr);
     const today = new Date();
 
     const diffInTime = dueDate.getTime() - today.getTime();
     const diffInDays = Math.ceil(diffInTime / (1000 * 3600 * 24));
-
+  
     if (diffInDays < 0) return "text-red-500 dark: text-red-700"; // 🔴 Overdue
     if (diffInDays <= 3) return "text-orange-500 dark: text-orange-700"; // 🟠 Due in 3 days
     if (diffInDays <= 7) return "text-yellow-500 dark: text-yellow-700"; // 🟡 Due in 7 days
     return "text-green-600 dark:text-green-700"; // Default
   };
 
+  const handleTaskClick = (e: React.MouseEvent) => {
+    setDialog("EDIT_TASK", card);
+  };
+
   const dueDate = card.due_date;
 
   return (
-    <Card className="border-2 shadow-none rounded-xl w-full dark:bg-slate-950">
+    <Card
+      className="border-2 shadow-none rounded-xl w-full dark:bg-slate-950"
+      onClick={handleTaskClick}
+    >
       <CardHeader>
         <BoardFlags flags={JSON.parse(card.flags.toString())} />
         <CardTitle className="text-sm font-semibold text-slate-700 dark:text-slate-50">
