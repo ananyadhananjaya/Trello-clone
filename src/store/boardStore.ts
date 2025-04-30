@@ -35,6 +35,7 @@ interface BoardsState {
     name: string,
     description: string
   ) => Promise<void>;
+  updateReorderTasks: (taskId: number, orderIndex: number) => Promise<void>;
 }
 
 export const fetchBoardsToStore = async () => {
@@ -103,5 +104,17 @@ export const useBoardsStore = create<BoardsState>((set) => ({
     }
 
     fetchTasksToStore();
+  },
+  updateReorderTasks: async (taskId: number, orderIndex: number) => {
+    const { data, error } = await supabase
+      .from("task_cards")
+      .update({ order_index: orderIndex })
+      .eq("id", taskId);
+
+    if (error) {
+      console.error("Error updating task:", error.message);
+      return;
+    }
+
   },
 }));
