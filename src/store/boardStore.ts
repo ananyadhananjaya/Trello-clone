@@ -20,6 +20,7 @@ export interface Tasks {
   due_date: string;
   flags: string[];
   board_id: number;
+  entered_board_on: string;
 }
 
 interface BoardsState {

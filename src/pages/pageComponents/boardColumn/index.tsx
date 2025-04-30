@@ -49,11 +49,11 @@ const BoardColumn = () => {
 
     return (
       <div
-        className="flex flex-col gap-4 rounded-xl dark:bg-gray-800 bg-white p-3 h-full"
+        className="flex flex-col gap-4 rounded-sm dark:bg-gray-800 bg-slate-200 p-2 h-full"
         style={{ width: "260px", minWidth: "260px" }}
       >
-        <div className="font-semibold text-sm">{board.name}</div>
-        <div className="font-light text-xs">{board.description || ""}</div>
+        <div className="font-bold text-xs text-gray-500 dark:text-gray-300 pl-2 mt-1">{board.name.toUpperCase()}</div>
+        {/* <div className="font-light text-xs">{board.description || ""}</div> */}
 
         <div className="flex flex-col gap-2 pt-2">
           {tasksForBoard.map((task) => (
@@ -67,7 +67,7 @@ const BoardColumn = () => {
   };
 
   return (
-    <div className="h-full w-full overflow-x-auto p-4">
+    <div className="h-full w-full overflow-x-auto p-2">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex gap-4 h-full w-full">
           {boardCols.map((board) => renderBoard(board))}
